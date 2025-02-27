@@ -44,13 +44,13 @@ const ExpenseForm = () => {
             placeholder="AMOUNT"
             step="0.01"
             min="0"
-            className="flex-1 px-4 py-3 bg-transparent border-2 border-white text-white placeholder-gray-500 font-helvetica uppercase tracking-wider focus:outline-none focus:border-gray-400 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-full sm:w-[40%] px-4 py-3 bg-transparent border-2 border-white text-white placeholder-gray-500 font-helvetica uppercase tracking-wider focus:outline-none focus:border-gray-400 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             required
           />
           <select
             value={type}
             onChange={(e) => setType(e.target.value as 'expense' | 'income')}
-            className="w-full sm:w-[200px] px-4 py-3 bg-transparent border-2 border-white text-white font-helvetica uppercase tracking-wider focus:outline-none focus:border-gray-400 transition-colors"
+            className="w-full sm:w-[60%] px-4 py-3 bg-transparent border-2 border-white text-white font-helvetica uppercase tracking-wider focus:outline-none focus:border-gray-400 transition-colors"
           >
             <option value="expense" className="bg-black">EXPENSE</option>
             <option value="income" className="bg-black">INCOME</option>

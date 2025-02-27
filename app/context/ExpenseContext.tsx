@@ -31,18 +31,39 @@ const ExpenseContext = createContext<{
 });
 
 const reducer = (state: State, action: Action): State => {
+  let newState: State;
+  
   switch (action.type) {
     case 'ADD_EXPENSE':
-      return { ...state, expenses: [...state.expenses, action.payload] };
+      newState = { ...state, expenses: [...state.expenses, action.payload] };
+      break;
     case 'DELETE_EXPENSE':
-      return { ...state, expenses: state.expenses.filter(expense => expense.id !== action.payload) };
+      newState = { ...state, expenses: state.expenses.filter(expense => expense.id !== action.payload) };
+      break;
     default:
       return state;
   }
+
+  // Save to localStorage after state updates
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('expenses', JSON.stringify(newState.expenses));
+  }
+
+  return newState;
 };
 
 export const ExpenseProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  React.useEffect(() => {
+    const savedExpenses = localStorage.getItem('expenses');
+    if (savedExpenses) {
+      const parsedExpenses = JSON.parse(savedExpenses);
+      parsedExpenses.forEach((expense: Expense) => {
+        dispatch({ type: 'ADD_EXPENSE', payload: expense });
+      });
+    }
+  }, []);
 
   return (
     <ExpenseContext.Provider value={{ state, dispatch }}>
