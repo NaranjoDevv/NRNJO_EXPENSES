@@ -1,40 +1,74 @@
 "use client";
 
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ExpenseContext from '../context/ExpenseContext';
 
-const formatCOP = (amount: number) => {
+const formatCOP = async (amount: number) => {
   const copFormat = new Intl.NumberFormat('es-CO', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0
   }).format(amount);
 
-  // Using fixed exchange rates for demonstration
-  const usdAmount = amount * 0.00025; // Approximate COP to USD rate
-  const eurAmount = amount * 0.00023; // Approximate COP to EUR rate
+  try {
+    const response = await fetch('https://open.er-api.com/v6/latest/COP');
+    const data = await response.json();
+    
+    const usdRate = data.rates.USD;
+    const eurRate = data.rates.EUR;
 
-  const usdFormat = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD'
-  }).format(usdAmount);
+    const usdAmount = amount * usdRate;
+    const eurAmount = amount * eurRate;
 
-  const eurFormat = new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR'
-  }).format(eurAmount);
+    const usdFormat = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(usdAmount);
 
-  return {
-    cop: copFormat + ' COP',
-    usd: usdFormat,
-    eur: eurFormat
-  };
+    const eurFormat = new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(eurAmount);
+
+    return {
+      cop: copFormat + ' COP',
+      usd: usdFormat,
+      eur: eurFormat
+    };
+  } catch (error) {
+    console.error('Error fetching exchange rates:', error);
+    return {
+      cop: copFormat + ' COP',
+      usd: '$0.00',
+      eur: '€0.00'
+    };
+  }
 };
 
 const TransactionList = () => {
   const { state, dispatch } = useContext(ExpenseContext);
+  const [formattedAmounts, setFormattedAmounts] = useState<{[key: string]: { cop: string, usd: string, eur: string }}>({});
+  const [totalFormatted, setTotalFormatted] = useState<{ cop: string, usd: string, eur: string }>({ cop: '0 COP', usd: '$0.00', eur: '€0.00' });
+
   const totalExpenses = state.expenses.reduce((total, expense) => {
     return total + (expense.type === 'expense' ? -expense.amount : expense.amount);
   }, 0);
+
+  useEffect(() => {
+    const updateAmounts = async () => {
+      // Update individual transaction amounts
+      const newFormattedAmounts: {[key: string]: { cop: string, usd: string, eur: string }} = {};
+      for (const expense of state.expenses) {
+        newFormattedAmounts[expense.id] = await formatCOP(expense.amount);
+      }
+      setFormattedAmounts(newFormattedAmounts);
+
+      // Update total amount
+      const newTotalFormatted = await formatCOP(Math.abs(totalExpenses));
+      setTotalFormatted(newTotalFormatted);
+    };
+
+    updateAmounts();
+  }, [state.expenses, totalExpenses]);
 
   const handleDelete = (id: string) => {
     dispatch({ type: 'DELETE_EXPENSE', payload: id });
@@ -50,11 +84,11 @@ const TransactionList = () => {
         <div className="text-right">
           <p className="text-xs sm:text-sm text-gray-400 font-helvetica uppercase tracking-wider">TOTAL BALANCE</p>
           <div className={`text-2xl sm:text-3xl font-bold font-helvetica ${totalExpenses >= 0 ? 'text-green-500' : 'text-red-500'} relative`}>
-            {formatCOP(Math.abs(totalExpenses)).cop}
+            {totalFormatted.cop}
             <p className="text-sm text-gray-400 space-y-0.5 mt-1">
-              {formatCOP(Math.abs(totalExpenses)).usd}
+              {totalFormatted.usd}
               <br />
-              {formatCOP(Math.abs(totalExpenses)).eur}
+              {totalFormatted.eur}
             </p>
           </div>
         </div>
@@ -73,11 +107,11 @@ const TransactionList = () => {
               </p>
               <div>
                 <p className={`text-sm font-helvetica ${expense.type === 'expense' ? 'text-red-500' : 'text-green-500'} tracking-wider`}>
-                  {formatCOP(expense.amount).cop}
+                  {formattedAmounts[expense.id]?.cop || '0 COP'}
                 </p>
                 <div className="text-xs text-gray-400 space-y-0.5">
-                  <p>{formatCOP(expense.amount).usd}</p>
-                  <p>{formatCOP(expense.amount).eur}</p>
+                  <p>{formattedAmounts[expense.id]?.usd || '$0.00'}</p>
+                  <p>{formattedAmounts[expense.id]?.eur || '€0.00'}</p>
                 </div>
               </div>
             </div>
