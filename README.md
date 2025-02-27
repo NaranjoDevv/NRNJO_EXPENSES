@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Desarrollo de Funcionalidades:
+   
+   - Define las funcionalidades principales que deseas para tu Expense Tracker. Esto podría incluir la capacidad de agregar, editar y eliminar gastos, así como la visualización de un resumen de gastos.
+4. Diseño de la Interfaz de Usuario:
+   
+   - Utiliza Tailwind CSS para diseñar una interfaz de usuario atractiva y funcional. Puedes empezar por crear componentes para las diferentes partes de la aplicación, como formularios de entrada de gastos, listas de gastos, y gráficos de resumen.
+5. Implementación de la Lógica de Negocio:
+   
+   - Implementa la lógica para manejar los datos de los gastos. Esto podría incluir la gestión del estado de la aplicación utilizando React Context o una biblioteca de gestión de estado como Redux.
+6. Pruebas y Depuración:
+   
+   - Realiza pruebas exhaustivas de tu aplicación para asegurarte de que todas las funcionalidades funcionan como se espera. Puedes utilizar herramientas de prueba como Jest para pruebas unitarias y de integración.
+7. Despliegue:
+   
+   - Una vez que estés satisfecho con el desarrollo y las pruebas, puedes desplegar tu aplicación. Según tu archivo README.md , parece que planeas desplegar en Vercel, lo cual es una excelente opción para aplicaciones Next.js.
+8. Documentación:
+   
+   - Asegúrate de que tu código esté bien documentado y considera agregar documentación adicional en el archivo README.md para ayudar a otros desarrolladores (o a ti mismo en el futuro) a entender y contribuir al proyecto.
+Estos pasos te proporcionarán una guía general para avanzar con tu proyecto de Expense Tracker. Si tienes preguntas específicas sobre alguna parte del proceso, no dudes en preguntar.
