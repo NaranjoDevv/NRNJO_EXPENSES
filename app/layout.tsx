@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NRNJO_EXPENSE",
+  title: "EXPENSE TRACKER",
   description: "EXPENSE TRACKER MILLIONAREE",
 };
 
