@@ -83,7 +83,7 @@ const TransactionList = () => {
             </div>
             <button
               onClick={() => handleDelete(expense.id)}
-              className="opacity-0 group-hover:opacity-100 transition-all duration-300 px-2 sm:px-4 py-1 sm:py-2 bg-white text-black font-helvetica uppercase text-xs sm:text-sm tracking-wider hover:bg-red-500 hover:text-white relative overflow-hidden"
+              className="sm:opacity-0 opacity-100 group-hover:opacity-100 transition-all duration-300 px-2 sm:px-4 py-1 sm:py-2 bg-white text-black font-helvetica uppercase text-xs sm:text-sm tracking-wider hover:bg-red-500 hover:text-white relative overflow-hidden"
             >
               DELETE
               <div className="absolute inset-0 bg-black/10 transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
